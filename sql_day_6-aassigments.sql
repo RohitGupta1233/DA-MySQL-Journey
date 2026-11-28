@@ -1,0 +1,77 @@
+create database college_management;
+use college_management;
+
+-- create 2 tables department and students
+create table DEPARTMENT(
+DEPT_ID INT PRIMARY KEY,
+DEPT_NAME VARCHAR(50) NOT NULL UNIQUE , 
+LOCATION VARCHAR(50) DEFAULT'HYDERBAD',
+BUDGET DECIMAL(10,2) CHECK (BUDGET>0)
+);
+DESC DEPARTMENT;
+
+CREATE TABLE STUDENTS(
+STUDENT_ID INT PRIMARY KEY,
+STUDENT_NAME VARCHAR(100) NOT NULL,
+EMAIL VARCHAR(100) UNIQUE,
+AGE INT CHECK (AGE>=18),
+GENDER VARCHAR(10) NOT NULL,
+CITY VARCHAR(50) DEFAULT'HYDERBAD',
+FEES DECIMAL(10,2) CHECK (FEES>=0),
+DEPT_ID INT ,
+FOREIGN KEY STUDENTS(DEPT_ID) REFERENCES DEPARTMENT(DEPT_ID)
+);
+
+-- INSERT FIVE DEPARTMENT RECORDS 
+INSERT INTO DEPARTMENT VALUES
+(001,'RAVI','VIZAG',20000),(002,'RAJU','HYD',30000),(003,'MANI','BGL',50000),(004,'CHANDRA','HYD',30000),(005,'PAVAN','CHENNAI',40000);
+SELECT*FROM DEPARTMENT;
+
+-- INSERT 10 STUDENT RECORDS
+INSERT INTO STUDENTS value
+(1,'ROHIT','ROHIT@GMAIL',24,'MALE','VIZAG',45000.00,001),(2,'MANI','MANI@GMAIL',23,'MALE','GWK',35000.00,003),(3,'PREETHAM','PREETHAM@GMAIL',22,'MALE','VZM',55000.00,002),
+(4,'CHANDRA','CHANDRA@GMAIL',26,'MALE','HYD',60000.00,005),(5,'MOULI','MOULI@GMAIL',29,'MALE','DELHI',45000.00,004),(6,'ROHIT','ROHIT@GMAIL',24,'MALE','VIZAG',45000.00,001),
+(7, 'RAHUL', 'rahul@gmail.com', 21, 'MALE', 'HYDERABAD', 25000.00, 002),(8, 'PRIYA', 'priya@gmail.com', 22, 'FEMALE', 'VIJAYAWADA', 30000.00, 003),
+(9, 'KIRAN', 'kiran@gmail.com', 20, 'MALE', 'GUNTUR', 20000.00,004),(10, 'SNEHA', 'sneha@gmail.com', 23, 'FEMALE', 'WARANGAL', 28000.00, 005);
+SELECT*FROM STUDENTS;
+
+-- primary key
+-- two students with same student_id
+insert into student values(1,'ROHIT','ROHIT@GMAIL',24,'MALE','VIZAG',45000.00,001),
+(2,'MANI','MANI@GMAIL',23,'MALE','GWK',35000.00,003);
+
+-- insert a student with null id
+insert into students(student_id,student_name,email,age,gender,city,fees,dept_id)values
+(NULL,'ROHIT','ROHIT@GMAIL',24,'MALE','VIZAG',45000.00,001);
+
+-- unique constraints
+-- same email
+insert into students values(1,'ROHIT','ROHIT@GMAIL',24,'MALE','VIZAG',45000.00,001),(2,'MANI','ROHIT@GMAIL',23,'MALE','GWK',35000.00,003);
+
+-- update same email to another student
+update students set email='ROHIT@gmail.com' where student_name='MOULI';
+
+-- not null
+-- without student name
+insert into students (student_id,student_name,email,age,gender,city,fees,dept_id) values
+(5,NULL ,'MOULI@GMAIL',29,'MALE','DELHI',45000.00,004);
+
+-- student with null gender
+insert into students values(1,'ROHIT','ROHIT@GMAIL',24,NULL ,'VIZAG',45000.00,001);
+select*from students;
+
+-- DEFAULT constraint
+-- DEFAULT WORKING
+INSERT INTO STUDENTS VALUES(10, 'SNEHA', 'sneha@gmail.com', 23, 'FEMALE', 'WARANGAL', 28000.00, 005);
+-- DEFAULT ANALYSING BY GIVING values
+INSERT INTO STUDENTS VALUES((5,MOULI ,'MOULI@GMAIL',29,'MALE','DELHI',45000.00,004);
+
+-- CHECK CONSTRAINTS
+-- AGE
+INSERT INTO STUDENTS VALUES(5,'MOULI','MOULI@GMAIL',29,'MALE','DELHI',45000.00,004);
+-- FEE
+INSERT INTO STUDENTS VALUES(2,'MANI','MANI@GMAIL',23,'MALE','GWK',-35000.00,003);
+
+-- FOREIGN KEY
+-- DEPT_ID THAT DOESN'T EXIST IN DEPARTMENTS
+INSERT INTO STUDENTS VALUES(9, 'KIRAN', 'kiran@gmail.com', 20, 'MALE', 'GUNTUR', 20000.00,004);
